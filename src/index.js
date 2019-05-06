@@ -6,14 +6,22 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './redux/store'
-import System from './containers/system/system'
 import Login from './containers/login/login'
+import Main from './containers/main/main'
+import NotFound from './components/not-found/not-found'
+import User from './containers/user/user'
 ReactDOM.render((
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
         <Route path="/login" component={Login} />
-        <Route component={System}></Route> 默认路由
+        <Main >
+          <Route path='/user' component={User}>
+            <Route path='/notFound' component={NotFound} />
+            <Route path='/notFound' component={NotFound} />
+          </Route>
+          <Route path='/notFound' component={NotFound} />
+        </Main>
       </Switch>
     </BrowserRouter>
   </Provider>
