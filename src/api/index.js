@@ -4,21 +4,24 @@
  */
 
 import ajax from './ajax'
+export const reqLogin = data => (ajax('/admin/login/', { ...data, authType: 'pub'}))
 
-// 注册接口
-export const reqRegister = (user) => ajax('/register', user, 'POST')
-// 登陆接口
-export const reqLogin = ({username, password}) => ajax('/login',{username, password}, 'POST')
-// 更新用户接口
-export const reqUpdateUser = (user) => ajax('/update', user, 'POST')
-// 获取用户信息
-export const reqUser = () => ajax('/user')
+export const reqLogout = data => (ajax('/admin/logout/', data))
 
-// 获取用户列表
-export const reqUserList = (type) => ajax('/userlist', {type})
+export const reqUserList = data => (ajax('/admin/search/', data))
 
-// 获取当前用户的聊天消息列表
-export const reqChatMsgList = () => ajax('/msglist')
 
-// 修改指定消息为已读
-export const reqReadMsg = (from) => ajax('/readmsg', {from}, 'POST')
+
+
+
+export const reqUpdateUserInfo = data => (ajax('/admin/modifyrec/', data))
+
+export const reqUserInfo = data => (ajax('/admin/detail/', data))
+
+export const reqAddUser = data => (ajax('/admin/newrec/', data))
+
+export const reqDeleteUser = data => (ajax('/admin/delrec/', data))
+
+export const reqFreeze = data => (ajax('/admin/freeze/', data))
+
+export const reqUpdatePwd = data => (ajax('/admin/editpwd/', data))

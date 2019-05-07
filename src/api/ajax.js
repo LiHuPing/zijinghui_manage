@@ -1,27 +1,39 @@
-/*
-能发送ajax请求的函数模块
-函数的返回值是promise对象
- */
+
 import axios from 'axios'
-const baseUrl = ''
-// const baseUrl = 'http://localhost:4000'
-export default function ajax(url, data={}, type='GET') {
-  url = baseUrl + url
-  if(type==='GET') { // 发送GET请求
-    // 拼请求参数串
-    // data: {username: tom, password: 123}
-    // paramStr: username=tom&password=123
-    let paramStr = ''
-    Object.keys(data).forEach(key => {
-      paramStr += key + '=' + data[key] + '&'
+import md5 from 'md5'
+const rootPath = 'http://192.168.1.188:8065'
+const pubParameter = {
+  token: md5('ZJH_CRM_API'),
+  authType: 'acl',
+  parseType: 'api',
+  terminalType: 'pc',
+  roleType: 'plat'
+}
+export default function ajax(url = '', data = {}) {
+  url = rootPath + url
+  return new Promise((resolve, reject) => {
+    console.log(Object.assign(pubParameter, data))
+    let promise = axios.post(url, toQueryString(Object.assign(pubParameter, data)))
+    promise.then(response => {
+      resolve(response.data)
+    }).catch(errMsg => {
+      reject(errMsg)
     })
-    if(paramStr) {
-      paramStr = paramStr.substring(0, paramStr.length-1)
+  })
+}
+
+
+
+
+
+const toQueryString = function (obj) {
+  return obj ? Object.keys(obj).sort().map(function (key) {
+    const val = obj[key];
+    if (Array.isArray(val)) {
+      return val.sort().map(function (val2) {
+        return encodeURIComponent(key) + '=' + encodeURIComponent(val2);
+      }).join('&');
     }
-    // 使用axios发get请求
-    return axios.get(url + '?' + paramStr)
-  } else {// 发送POST请求
-    // 使用axios发post请求
-    return axios.post(url, data)
-  }
+    return encodeURIComponent(key) + '=' + encodeURIComponent(val);
+  }).join('&') : '';
 }
