@@ -9,11 +9,13 @@ const pubParameter = {
   terminalType: 'pc',
   roleType: 'plat'
 }
-export default function ajax(url = '', data = {}) {
+export default function ajax(url = '', userParameter = {}) {
   url = rootPath + url
+  let data = Object.assign({ ...pubParameter }, { ...userParameter })
+  data = toQueryString(data)
+
   return new Promise((resolve, reject) => {
-    console.log(Object.assign(pubParameter, data))
-    let promise = axios.post(url, toQueryString(Object.assign(pubParameter, data)))
+    let promise = axios.post(url, data)
     promise.then(response => {
       resolve(response.data)
     }).catch(errMsg => {
@@ -21,10 +23,6 @@ export default function ajax(url = '', data = {}) {
     })
   })
 }
-
-
-
-
 
 const toQueryString = function (obj) {
   return obj ? Object.keys(obj).sort().map(function (key) {

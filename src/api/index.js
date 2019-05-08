@@ -4,24 +4,21 @@
  */
 
 import ajax from './ajax'
-export const reqLogin = data => (ajax('/admin/login/', { ...data, authType: 'pub'}))
 
+
+export const reqLogin = data => (ajax('/admin/login/', { ...data, authType: 'pub' }))
 export const reqLogout = data => (ajax('/admin/logout/', data))
-
-export const reqUserList = data => (ajax('/admin/search/', data))
-
-
-
-
-
-export const reqUpdateUserInfo = data => (ajax('/admin/modifyrec/', data))
-
-export const reqUserInfo = data => (ajax('/admin/detail/', data))
-
-export const reqAddUser = data => (ajax('/admin/newrec/', data))
-
-export const reqDeleteUser = data => (ajax('/admin/delrec/', data))
-
-export const reqFreeze = data => (ajax('/admin/freeze/', data))
-
 export const reqUpdatePwd = data => (ajax('/admin/editpwd/', data))
+
+//管理员
+export const reqUserList = data => (ajax('/admin/search/', data))
+export const reqUpdateUserInfo = data => (ajax('/admin/modifyrec/', data))
+export const reqUserInfo = data => (ajax('/admin/detail/', data))
+export const reqAddUser = data => (ajax('/admin/newrec/', data))
+export const reqDeleteUser = data => (ajax('/admin/delrec/', data))
+export const reqFreeze = data => (ajax('/admin/freeze/', data))
+//权限组
+
+export const reqPermList = data => (ajax('/permgroup/search/', data))
+
+

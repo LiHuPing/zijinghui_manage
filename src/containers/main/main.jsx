@@ -1,68 +1,41 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { NavLink, Switch, Route } from 'react-router-dom'
-import { Layout, Menu, Icon } from 'antd'
 import PubSub from 'pubsub-js'
+import { Switch, Redirect, Route } from 'react-router'
+import TopNavigator from '../../components/topNavigator/topNavigator'
+import TopButton from '../../components/topButton/topButton'
+import MenuLeft from '../../components/menuLeft/menuLeft'
 import AdminIndex from '../admin/adminIndex'
 import PermIndex from '../permission/permIndex'
-import { getUserList, toAdduser } from '../../redux/actions'
+import PermList from '../permission/permList'
+import { Layout } from 'antd'
 const { Header, Content, Sider } = Layout;
 class Main extends Component {
-  componentWillMount() {
-    const { user, getUserList, userList } = this.props
-    const { current_page, page_size } = userList
-    if (user.login_key) {
-      getUserList({ token: user.login_key, current_page, page_size })
-    }
-  }
-  componentDidMount() {
-    PubSub.subscribe('addUser', this.adduser)
-  }
-  adduser = (msg, data) => {
-    const { user, toAdduser } = this.props
-    toAdduser({ ...data, token: user.login_key })
-  }
   render() {
+    const { login_key } = this.props.user
+    if (!login_key) {
+      return <Redirect to='/login' />
+    }
     return (
       <Layout>
-        <Header className="header" style={{ background: '#fff', padding: 0 }}>
-          <div className="logo text-center">
-            <h1>资鲸汇后台管理系统</h1>
-          </div>
+        <Header className="header header-light" style={{ height: '80px' }}>
+          <div className="logo-brand pull-left color-beige">资鲸汇</div>
+          <TopNavigator />
+          <TopButton user={this.props.user} />
         </Header>
         <Layout>
           <Sider width={200} style={{ background: '#fff' }}>
-            <Menu
-              mode="inline"
-              defaultSelectedKeys={['1']}
-              style={{ height: '100%', borderRight: 0 }}
-            >
-              <Menu.Item key="1">
-                <NavLink to='/adminIndex'>
-                  <Icon type="user" />
-                  <span>后台用户</span>
-                </NavLink>
-              </Menu.Item>
-              <Menu.Item key="2">
-                <NavLink to='/permIndex'>
-                  <Icon type="laptop" />
-                  <span>权限管理</span>
-                </NavLink>
-              </Menu.Item>
-            </Menu>
+            <MenuLeft />
           </Sider>
           <Layout style={{ margin: '10px', background: '#fff' }}>
             <Content style={{ height: '1000px', padding: '20px' }}>
-              <Switch>
-                <Route path='/adminIndex' component={AdminIndex}></Route>
-                <Route path='/permIndex' component={PermIndex}></Route>
-              </Switch>
+              {this.props.children}
             </Content>
           </Layout>
         </Layout>
-      </Layout>
+      </Layout >
     )
   }
 }
-export default connect(state => ({ user: state.user, userList: state.userList }), { getUserList, toAdduser })(Main)
+export default connect(state => ({ user: state.user }))(Main)
 

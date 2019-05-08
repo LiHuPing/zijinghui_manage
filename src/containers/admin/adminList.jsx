@@ -52,8 +52,8 @@ class AdminList extends Component {
 					<div>
 						<a className="color-blue">编辑</a>
 						&nbsp;&nbsp;
-						<Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(user.admin_id)}>
-							<a href="javascript:;">Delete</a>
+						<Popconfirm title="确定删除？" onConfirm={() => this.handleDelete(user.admin_id)}>
+							<a href="javascript:;">删除</a>
 						</Popconfirm>
 						&nbsp;&nbsp;
 						<a className="color-yel">{{ "0": "冻结", 1: "解冻" }[user.is_freezed]}</a>
@@ -64,7 +64,6 @@ class AdminList extends Component {
 	]
 	render() {
 		const { list } = this.props.userList
-		console.log(list)
 		const formItemLayout = { labelCol: { span: 7 }, wrapperCol: { span: 17 } }
 		const { getFieldDecorator } = this.props.form
 		return (
@@ -107,12 +106,12 @@ class AdminList extends Component {
 								<FormItem {...formItemLayout} label="权限组">
 									{getFieldDecorator('perm_group_id')(
 										<Select>
+
 										</Select>
 									)}
 								</FormItem>
 							</Col>
 						</Row>
-
 					</Form>
 					<div className="btn-group text-right">
 						<Button type="primary" icon="search">搜索</Button>

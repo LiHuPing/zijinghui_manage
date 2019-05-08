@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Layout, Icon, Button, Form, Input, Select, Tooltip, message } from 'antd';
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router'
 
 import { login } from '../../redux/actions'
 const { Content } = Layout
@@ -49,15 +49,14 @@ class Login extends Component {
   render() {
     const { login_key } = this.props.user
     if (login_key) {
-      return <Redirect to='/adminIndex'></Redirect>
+      return <Redirect to='/'></Redirect>
     }
-
     const { getFieldDecorator } = this.props.form
     return (
       <Layout className="flex-initial rela" style={{ minHeight: this.state.minH, background: `url(${require('../../assets/images/pamyatnik-mininu-i-pozharskomu.jpg')}) center / 100% no-repeat` }}>
         <Content className="login-container abso" style={{ paddingTop: this.state.farTop }} >
           <Form className="login-form">
-            <div className="logo-surface color-red">资鲸汇</div>
+            <div className="logo-surface color-beige">资鲸汇</div>
             <FormItem>
               <Select size="large" defaultValue='plat' onChange={this.roleTypeSwitch}>
                 <Option value="plat">管理员登录</Option>
